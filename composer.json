@@ -1,0 +1,24 @@
+{
+    "name": "mouf/html.widgets.menu",
+    "description": "This package contains objects describing a menu of an application. The menu is described, but this package does not render the menu in any way. You will have to use another package to render the menu in HTML. Usually, templates will provide their own menu renderers.",
+    "keywords": ["mouf", "menu", "template"],
+    "homepage": "https://github.com/thecodingmachine/html.widgets.menu",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Négrier",
+            "email": "d.negrier@thecodingmachine.com",
+            "homepage": "http://mouf-php.com"
+        }
+    ],
+    "require": {
+    	"php": ">=5.3.0",
+        "mouf/utils.i18n.fine": "3.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Mouf": "src/"
+        }
+    }
+}

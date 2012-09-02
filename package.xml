@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:noNamespaceSchemaLocation="http://xsd.mouf-php.com/packages.xsd">
+
+	<displayName>Menu</displayName>
+	<shortDescription>This package contains objects describing a menu of an application.
+	The menu is described, but this package does not render the menu in any way.
+	You will have to use another package to render the menu in HTML.
+	Usually, templates will provide their own menu renderers.</shortDescription>
+	<docUrl></docUrl>
+	<logo>logo.png</logo>
+    <dependencies>
+		<dependency>
+			<group>utils/i18n</group>
+			<name>fine</name>
+			<version>&gt;=2.1</version>
+
+		</dependency>
+    </dependencies>
+	<requires>
+		<require>MenuInterface.php</require>
+		<require>MenuItemInterface.php</require>
+		<require>MenuItemStyleInterface.php</require>
+		<require>Menu.php</require>
+		<require>MenuItem.php</require>
+		<require>MenuItemStyleIcon.php</require>
+	</requires>
+</package>
