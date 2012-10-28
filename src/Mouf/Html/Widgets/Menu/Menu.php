@@ -6,6 +6,8 @@
  */
 namespace Mouf\Html\Widgets\Menu;
 
+use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
+
 /**
  * This class represent a menu (full of menu items).
  * It is important to note that a menu item does not render directly in HTML (it has no toHtml method).
@@ -37,8 +39,7 @@ class Menu implements MenuInterface {
 	/**
 	 * Constructor.
 	 *
-	 * @param string $label
-	 * @param string $url
+	 * @param array<MenuItemInterface> $children
 	 */
 	public function __construct($children=null) {
 		$this->children = $children;

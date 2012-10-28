@@ -6,6 +6,9 @@
  */
 namespace Mouf\Html\Widgets\Menu;
 
+use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
+use Mouf\Utils\I18n\Fine\Translate\LanguageTranslationInterface;
+
 /**
  * This class represent a menu item.
  * It is important to note that a menu item does not render directly in HTML (it has no toHtml method).
@@ -67,7 +70,7 @@ class MenuItem implements MenuItemInterface {
 	/**
 	 * The translation service to use (if any) to translate the label text.
 	 * 
-	 * @var LanguageTranslationInterface 
+	 * @var LanguageTranslationInterface
 	 */
 	private $translationService;
 	
@@ -110,6 +113,7 @@ class MenuItem implements MenuItemInterface {
 	 *
 	 * @param string $label
 	 * @param string $url
+	 * @param array<MenuItemInterface> $children
 	 */
 	public function __construct($label=null, $url=null, $children=array()) {
 		$this->label = $label;
@@ -348,7 +352,7 @@ class MenuItem implements MenuItemInterface {
 					if($return === null)
 						$return = $additionalStyle;
 					else
-						throw new Exception("MenuItem: There are many instance of $type, please use getAdditionalStylesByType function to get all instance");
+						throw new \Exception("MenuItem: There are many instance of $type, please use getAdditionalStylesByType function to get all instance");
 				}
 			}
 		}
