@@ -3,7 +3,7 @@
     "description": "This package contains objects describing a menu of an application. The menu is described, but this package does not render the menu in any way. You will have to use another package to render the menu in HTML. Usually, templates will provide their own menu renderers.",
     "keywords": ["mouf", "menu", "template"],
     "homepage": "https://github.com/thecodingmachine/html.widgets.menu",
-    "type": "library",
+    "type": "mouf-library",
     "license": "MIT",
     "authors": [
         {

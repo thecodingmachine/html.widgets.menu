@@ -462,7 +462,7 @@ class MenuItem implements MenuItemInterface {
 		if (is_array($this->propagatedUrlParameters)) {
 			foreach ($this->propagatedUrlParameters as $parameter) {
 				if (isset($_REQUEST[$parameter])) {
-					$params[$parameter] = get($parameter);
+					$params[$parameter] = \get($parameter);
 				}
 			}
 		}
