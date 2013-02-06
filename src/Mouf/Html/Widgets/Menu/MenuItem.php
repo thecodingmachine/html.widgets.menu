@@ -242,10 +242,19 @@ class MenuItem implements MenuItemInterface {
 		//error_log($_SERVER['REQUEST_URI'].' - '.$requestUrl.' - '.ROOT_URL.$this->url);
 		if($this->activateBasedOnUrl) {
 			$urlParts = parse_url($_SERVER['REQUEST_URI']);
-			$requestUrl = $urlParts['path'];
-			
 			$menuUrlParts = parse_url($this->getLinkWithoutParams());
-			$menuUrl = $menuUrlParts['path'];
+			
+			if (isset($menuUrlParts['path'])) {
+				$menuUrl = $menuUrlParts['path'];
+			} else {
+				$menuUrl = '/';
+			}
+			
+			if (isset($urlParts['path'])) {
+				$requestUrl = $urlParts['path'];
+			} else {
+				$requestUrl = '/';
+			}
 			
 			if($requestUrl == $menuUrl) {
 				return true;
