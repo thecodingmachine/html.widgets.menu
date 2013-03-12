@@ -240,7 +240,7 @@ class MenuItem implements MenuItemInterface {
 		//$requestUrl = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'));
 		
 		//error_log($_SERVER['REQUEST_URI'].' - '.$requestUrl.' - '.ROOT_URL.$this->url);
-		if($this->activateBasedOnUrl) {
+		if($this->activateBasedOnUrl && $this->url !== null) {
 			$urlParts = parse_url($_SERVER['REQUEST_URI']);
 			$menuUrlParts = parse_url($this->getLinkWithoutParams());
 			
@@ -467,7 +467,7 @@ class MenuItem implements MenuItemInterface {
 	 * @return string
 	 */
 	public function getLink() {
-		if (!$this->url) {
+		if ($this->url === null) {
 			return null;
 		}
 		$link = $this->getLinkWithoutParams();
