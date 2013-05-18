@@ -429,7 +429,7 @@ class MenuItem implements MenuItemInterface {
 	 * Otherwise, the label is displayed "as-is".
 	 * 
 	 * @Property
-	 * @param LanguageTranslationInterface $translationInterface
+	 * @param LanguageTranslationInterface $translationService
 	 */
 	public function setTranslationService(LanguageTranslationInterface $translationService) {
 		$this->translationService = $translationService;
