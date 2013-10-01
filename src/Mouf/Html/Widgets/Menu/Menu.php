@@ -1,12 +1,13 @@
 <?php
 /*
- * Copyright (c) 2012 David Negrier
+ * Copyright (c) 2012-2013 David Negrier
  * 
  * See the file LICENSE.txt for copying permission.
  */
 namespace Mouf\Html\Widgets\Menu;
 
 use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
+use Mouf\Html\HtmlElement\HtmlElementInterface;
 
 /**
  * This class represent a menu (full of menu items).
@@ -14,9 +15,9 @@ use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
  * Instead, you must use another class (a Menu renderer class) to display the menu.
  * Usually, menu renderers are embedded into templates.
  * 
- * @Component
  */
-class Menu implements MenuInterface {
+class Menu implements MenuInterface, HtmlElementInterface {
+	use Mouf\Html\Renderer\Renderable;
 	
 	/**
 	 * The children menu item of this menu (if any).
