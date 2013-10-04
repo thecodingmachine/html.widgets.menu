@@ -1,12 +1,13 @@
 {% if not hidden %}
 {% set menuCssClass = cssClass ~ (active?" active":"") %}
-<li class="{{ menuCssClass }}">
-{% if link %}<a href="{{ link }}">{{ label }}</a>{% endif %}
+<li{% if menuCssClass %} class="{{ menuCssClass }}"{% endif %}>
+{%- if url %}<a href="{{ url }}">{{ label }}</a>{% else %}{{ label }}{% endif -%}
 {% if children %}
 <ul>
-	{% for child in children %}
-		{% toHtml(child) %}
-	{% endfor %}
+	{%- for child in children -%}
+		{{- toHtml(child) -}}
+	{%- endfor -%}
 </ul>
-{% endif %}
+{%- endif -%}
 </li>
+{% endif %}

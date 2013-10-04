@@ -1,7 +1,7 @@
-{% if !hidden %}
-<ul class="{{ cssClass }}">
+{% if not hidden %}
+<ul{% if cssClass %} class="{{ cssClass }}"{% endif %}>
 	{% for child in children %}
-		{% toHtml(child) %}
+		{{ toHtml(child) }}
 	{% endfor %}
 </ul>
 {% endif %}

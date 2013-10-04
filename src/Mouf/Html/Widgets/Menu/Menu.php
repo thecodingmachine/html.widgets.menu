@@ -8,6 +8,7 @@ namespace Mouf\Html\Widgets\Menu;
 
 use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
 use Mouf\Html\HtmlElement\HtmlElementInterface;
+use Mouf\Html\Renderer\Renderable;
 
 /**
  * This class represent a menu (full of menu items).
@@ -17,7 +18,7 @@ use Mouf\Html\HtmlElement\HtmlElementInterface;
  * 
  */
 class Menu implements MenuInterface, HtmlElementInterface {
-	use Mouf\Html\Renderer\Renderable;
+	use Renderable;
 	
 	/**
 	 * The children menu item of this menu (if any).

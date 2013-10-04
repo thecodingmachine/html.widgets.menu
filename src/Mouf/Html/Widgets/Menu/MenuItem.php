@@ -8,6 +8,8 @@ namespace Mouf\Html\Widgets\Menu;
 
 use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
 use Mouf\Utils\I18n\Fine\Translate\LanguageTranslationInterface;
+use Mouf\Html\HtmlElement\HtmlElementInterface;
+use Mouf\Html\Renderer\Renderable;
 
 /**
  * This class represent a menu item.
@@ -18,7 +20,8 @@ use Mouf\Utils\I18n\Fine\Translate\LanguageTranslationInterface;
  *
  * @Component
  */
-class MenuItem implements MenuItemInterface {
+class MenuItem implements MenuItemInterface, HtmlElementInterface {
+	use Renderable;
 	
 	/**
 	 * The text for the menu item
@@ -111,6 +114,7 @@ class MenuItem implements MenuItemInterface {
 	/**
 	 * Constructor.
 	 *
+	 * @Important
 	 * @param string $label
 	 * @param string $url
 	 * @param array<MenuItemInterface> $children
