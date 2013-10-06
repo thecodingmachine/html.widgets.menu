@@ -1,4 +1,4 @@
-{% if not hidden %}
+{% if not this.hidden %}
 {% set menuCssClass = cssClass ~ (active?" active":"") %}
 <li{% if menuCssClass %} class="{{ menuCssClass }}"{% endif %}>
 {%- if url %}<a href="{{ url }}">{{ label }}</a>{% else %}{{ label }}{% endif -%}
