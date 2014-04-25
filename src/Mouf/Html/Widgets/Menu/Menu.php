@@ -39,6 +39,7 @@ class Menu implements MenuInterface {
 	/**
 	 * Constructor.
 	 *
+	 * @Important
 	 * @param array<MenuItemInterface> $children
 	 */
 	public function __construct($children=null) {

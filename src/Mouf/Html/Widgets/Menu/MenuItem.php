@@ -111,6 +111,7 @@ class MenuItem implements MenuItemInterface {
 	/**
 	 * Constructor.
 	 *
+	 * @Important
 	 * @param string $label
 	 * @param string $url
 	 * @param array<MenuItemInterface> $children
