@@ -17,8 +17,6 @@ use Mouf\Html\Renderer\Renderable;
  * Instead, you must use another class (a Menu renderer class) to display the menu.
  * Usually, menu renderers are embedded into templates.
  * 
- *
- * @Component
  */
 class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	use Renderable;
@@ -31,7 +29,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	private $label;
 	
 	/**
-	 * The link for the menu (relative to the root url), unless it starts with / or http:// or https://.
+	 * The link for the menu (relative to the root url), unless it starts with / or http:// or https:// or # or ?.
 	 *
 	 * @var string
 	 */
@@ -115,8 +113,8 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * Constructor.
 	 *
 	 * @Important
-	 * @param string $label
-	 * @param string $url
+	 * @param string $label The text for the menu item
+	 * @param string $url The link for the menu (relative to the root url), unless it starts with / or http:// or https:// or # or ?.
 	 * @param array<MenuItemInterface> $children
 	 */
 	public function __construct($label=null, $url=null, $children=array()) {
@@ -140,8 +138,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	/**
 	 * The label for this menu item.
 	 * 
-	 * @Property
-	 * @Compulsory
 	 * @param string $label
 	 */
 	public function setLabel($label) {
@@ -159,7 +155,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	/**
 	 * The link for the menu (relative to the root url), unless it starts with / or http:// or https://.
 	 *
-	 * @Property
 	 * @param string $url
 	 */
 	public function setUrl($url) {
@@ -210,7 +205,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	/**
 	 * The children menu item of this menu (if any).
 	 * 
-	 * @Property
 	 * @param array<MenuItemInterface> $children
 	 */
 	public function setChildren(array $children) {
@@ -275,7 +269,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	/**
 	 * Set the active state of the menu.
 	 * 
-	 * @Property
 	 * @param bool $isActive
 	 */
 	public function setIsActive($isActive) {
@@ -304,7 +297,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * Whether the menu is extended or not.
 	 * This should not have an effect if the menu has no child.
 	 * 
-	 * @Property
 	 * @param bool $isExtended
 	 */
 	public function setIsExtended($isExtended = true) {
@@ -324,7 +316,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * An optional CSS class to apply to the menu item.
 	 * Use of this property depends on the menu implementation.
 	 * 
-	 * @Property
 	 * @param string $cssClass
 	 */
 	public function setCssClass($cssClass) {
@@ -335,7 +326,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	/**
 	 * Level of priority used to order the menu items.
 	 * 
-	 * @Property
 	 * @param float $priority
 	 */
 	public function setPriority($priority) {
@@ -397,7 +387,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	/**
 	 * Add menu item style.
 	 * 
-	 * @Property
 	 * @param array<MenuItemStyleInterface> $menuItemStyleInterface
 	 */
 	public function setAdditionalStyles($menuItemStyleInterface) {
@@ -432,7 +421,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * If any translation service is set, it will be used to translate the label.
 	 * Otherwise, the label is displayed "as-is".
 	 * 
-	 * @Property
 	 * @param LanguageTranslationInterface $translationService
 	 */
 	public function setTranslationService(LanguageTranslationInterface $translationService) {
@@ -444,7 +432,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	/**
 	 * If set, this display condition is tested. If it returns false, the menu will be hidden.
 	 * 
-	 * @Property
 	 * @param ConditionInterface $displayCondition
 	 */
 	public function setDisplayCondition(ConditionInterface $displayCondition) {
@@ -457,7 +444,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * For instance, if the parameter "mode" is set to 42 on the page (because the URL is http://mywebsite/myurl?mode=42),
 	 * then if you choose to propagate the "mode" parameter, the menu link will have "mode=42" as a parameter.
 	 *
-	 * @Property
 	 * @param array<string> $propagatedUrlParameters
 	 */
 	public function setPropagatedUrlParameters($propagatedUrlParameters) {
@@ -506,7 +492,9 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 		if (strpos($this->url, "/") === 0
 			|| strpos($this->url, "javascript:") === 0
 			|| strpos($this->url, "http://") === 0
-			|| strpos($this->url, "https://") === 0) {
+			|| strpos($this->url, "https://") === 0
+			|| strpos($this->url, "?") === 0
+			|| strpos($this->url, "#") === 0) {
 			return $this->url;	
 		}
 		
@@ -516,7 +504,6 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	/**
 	 * If the URL of the current page matches the URL of the link, the link will be considered as "active".
 	 * 
-	 * @Property
 	 * @param bool $activateBasedOnUrl
 	 */
 	public function setActivateBasedOnUrl($activateBasedOnUrl = true) {
