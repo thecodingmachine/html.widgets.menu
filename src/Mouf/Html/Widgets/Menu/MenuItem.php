@@ -108,6 +108,11 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * @var array<MenuItemStyleInterface>
 	 */
 	private $additionalStyles = array();
+
+    /**
+     * @var array<string, string>
+     */
+    private $htmlAttributes;
 	
 	/**
 	 * Constructor.
@@ -393,6 +398,23 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 		$this->additionalStyles = $menuItemStyleInterface;
 		return $this;
 	}
+
+
+    /**
+     * An array of html arttributes like ["target" => "_black"]
+     *
+     * @param array<string, string> $htmlAttributes
+     */
+    public function setHtmlAttributes($htmlAttributes) {
+        $this->htmlAttributes = $htmlAttributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHtmlAttributes() {
+        return $this->htmlAttributes;
+    }
 	
 	/**
 	 * Returns true if this menu item is a separator.
