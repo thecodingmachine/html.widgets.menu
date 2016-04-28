@@ -1,7 +1,7 @@
 {% if not this.hidden %}
 {% set menuCssClass = cssClass ~ (active?" active":"") %}
 <li{% if menuCssClass %} class="{{ menuCssClass }}"{% endif %}>
-{%- if url %}<a href="{{ this.link }}">{{ label }}</a>{% else %}{{ label }}{% endif -%}
+{%- if url is defined %}<a href="{{ this.link }}">{{ label }}</a>{% else %}{{ label }}{% endif -%}
 {% if children %}
 <ul>
 	{%- for child in children -%}
