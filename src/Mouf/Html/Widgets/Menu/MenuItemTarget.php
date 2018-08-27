@@ -23,7 +23,7 @@ class MenuItemTarget implements MenuItemStyleInterface {
 	 */
 	public $target;
 
-    public function __construct($target = "_blank") {
+    public function __construct(string $target = "_blank") {
         $this->target = $target;
     }
 	
@@ -31,8 +31,7 @@ class MenuItemTarget implements MenuItemStyleInterface {
 	 * Returns the target html attribute or null if not set.
 	 * @return string
 	 */
-	public function getTarget() {
+	public function getTarget(): string {
         return $this->target;
 	}
 }
-?>

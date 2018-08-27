@@ -19,21 +19,26 @@
 	],
 	"require" : {
 		"mouf/utils.common.conditioninterface" : "2.*",
-		"php" : ">=5.3.0",
-		"mouf/html.renderer" : "~1.0"
+		"php" : ">=7.1",
+		"mouf/html.renderer" : "^2",
+		"thecodingmachine/funky": "^1"
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^0.10.3",
+		"thecodingmachine/phpstan-strict-rules": "^0.10.3",
+		"squizlabs/php_codesniffer": "^3.3.1",
+		"mouf/utils.i18n.fine.translation-interface": "^4"
+	},
+	"scripts": {
+		"cs-check": "phpcs",
+		"cs-fix": "phpcbf",
+		"phpstan": "phpstan analyse src -c phpstan.neon --level=5 --no-progress -vvv"
 	},
 	"autoload" : {
 		"psr-0" : {
 			"Mouf" : "src/"
 		}
 	},
-	"extra" : {
-		"mouf" : {
-			"install" : [{
-					"file" : "src/install.php",
-					"type" : "file"
-				}
-			]
-		}
-	}
+	"minimum-stability": "dev",
+	"prefer-stable": true
 }

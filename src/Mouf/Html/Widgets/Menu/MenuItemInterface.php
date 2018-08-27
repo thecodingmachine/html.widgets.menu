@@ -21,37 +21,37 @@ interface MenuItemInterface /*extends MenuInterface*/ {
 	 * Returns the label for the menu item.
 	 * @return string
 	 */
-	function getLabel();
+    public function getLabel(): string;
 
 	/**
 	 * Returns the URL for this menu (or null if this menu is not a link).
 	 * @return string
 	 */
-	function getUrl();
+    public function getUrl(): ?string;
 	
 	/**
 	 * Returns a list of children elements for the menu (if there are some).
 	 * @return array<MenuItemInterface>
 	 */
-	function getChildren();
+    public function getChildren(): array;
 	
 	/**
 	 * Returns true if the menu is in active state (if we are on the page for this menu).
 	 * @return bool
 	 */
-	function isActive();
+    public function isActive(): bool;
 	
 	/**
 	 * Returns true if the menu should be in extended state (if we can see the children directly).
 	 * @return bool
 	 */
-	function isExtended();
+    public function isExtended(): ?bool;
 	
 	/**
 	 * Returns an optional CSS class to apply to the menu item.
 	 * @return string
 	 */
-	function getCssClass();
+    public function getCssClass(): string;
 	
 	/**
 	 * Returns true if this menu item is a separator.
@@ -60,26 +60,25 @@ interface MenuItemInterface /*extends MenuInterface*/ {
 	 * 
 	 * @return bool
 	 */
-	function isSeparator();
+    public function isSeparator(): bool;
 	
 	/**
 	 * If this function returns true, the menu item should not be displayed.
 	 * 
 	 * @return bool
 	 */
-	function isHidden();
+    public function isHidden(): bool;
 	
 	/**
 	 * Returns the level of priority. It is used to order the menu items.
-	 * @return float
+	 * @return float|null
 	 */
-	function getPriority();
+	public function getPriority(): ?float;
 	
 	/**
 	 * Returns the list of additionnal style
 	 * @return array<MenuItemStyleInterface>
 	 */
-	function getAdditionalStyles();
+    public function getAdditionalStyles(): array;
 }
 
-?>

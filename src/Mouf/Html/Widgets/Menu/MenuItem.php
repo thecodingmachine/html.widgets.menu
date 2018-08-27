@@ -10,6 +10,7 @@ use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
 use Mouf\Utils\I18n\Fine\Translate\LanguageTranslationInterface;
 use Mouf\Html\HtmlElement\HtmlElementInterface;
 use Mouf\Html\Renderer\Renderable;
+use Mouf\Utils\I18n\Fine\TranslatorInterface;
 
 /**
  * This class represent a menu item.
@@ -71,7 +72,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	/**
 	 * The translation service to use (if any) to translate the label text.
 	 * 
-	 * @var LanguageTranslationInterface
+	 * @var TranslatorInterface|null
 	 */
 	private $translationService;
 	
@@ -108,8 +109,12 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * @var array<MenuItemStyleInterface>
 	 */
 	private $additionalStyles = array();
-	
-	/**
+    /**
+     * @var string
+     */
+    private $rootUrl;
+
+    /**
 	 * Constructor.
 	 *
 	 * @Important
@@ -117,17 +122,18 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * @param string $url The link for the menu (relative to the root url), unless it starts with / or http:// or https:// or # or ?.
 	 * @param array<MenuItemInterface> $children
 	 */
-	public function __construct($label=null, $url=null, $children=array()) {
+	public function __construct(string $label=null, string $url=null, array $children=[], string $rootUrl = '/') {
 		$this->label = $label;
 		$this->url = $url;
 		$this->children = $children;
-	}
+        $this->rootUrl = $rootUrl;
+    }
 
 	/**
 	 * Returns the label for the menu item.
 	 * @return string
 	 */
-	public function getLabel() {
+	public function getLabel(): string {
 		if ($this->translationService) {
 			return $this->translationService->getTranslation($this->label);
 		} else {
@@ -140,7 +146,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @param string $label
 	 */
-	public function setLabel($label) {
+	public function setLabel(string $label): void {
 		$this->label = $label;
 	}
 	
@@ -148,16 +154,16 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * Returns the URL for this menu (or null if this menu is not a link).
 	 * @return string
 	 */
-	public function getUrl() {
+	public function getUrl(): string {
 		return $this->url;
 	}
 	
 	/**
 	 * The link for the menu (relative to the root url), unless it starts with / or http:// or https://.
 	 *
-	 * @param string $url
+	 * @param string|null $url
 	 */
-	public function setUrl($url) {
+	public function setUrl(?string $url): self {
 		$this->url = $url;
 		return $this;
 	}	
@@ -168,15 +174,15 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * @see MenuItemInterface::getChildren()
 	 * @return array<MenuItemInterface>
 	 */
-	public function getChildren() {
-		if ($this->sorted == false && $this->children) {
+	public function getChildren(): array {
+		if ($this->sorted === false && $this->children !== []) {
 			// First, let's make 2 arrays: the array of children with a priority, and the array without.
 			$childrenWithPriorities = array();
 			$childrenWithoutPriorities = array();
 			foreach ($this->children as $child) {
 				/* @var $child MenuItemInterface */
 				$priority = $child->getPriority();
-				if ($priority === null || $priority === "") {
+				if ($priority === null) {
 					$childrenWithoutPriorities[] = $child;
 				} else {
 					$childrenWithPriorities[] = $child;
@@ -192,14 +198,14 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	
 	private $sorted = false;
 	
-	public function compareMenuItems(MenuItem $item1, MenuItem $item2) {
+	public function compareMenuItems(MenuItem $item1, MenuItem $item2): int {
 		$priority1 = $item1->getPriority();
 		$priority2 = $item2->getPriority();
 		/*if ($priority1 === null && $priority2 === null) {
 			// If no priority is set, let's keep the default ordering (which happens is usort by always returning positive numbers...) 
 			return 1;	
 		}*/
-		return $priority1 - $priority2;
+		return $priority1 <=> $priority2;
 	}
 	
 	/**
@@ -207,7 +213,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @param array<MenuItemInterface> $children
 	 */
-	public function setChildren(array $children) {
+	public function setChildren(array $children): self {
 		$this->sorted = false;
 		$this->children = $children;
 		return $this;
@@ -218,7 +224,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @param MenuItemInterface $menuItem
 	 */
-	public function addMenuItem(MenuItemInterface $menuItem) {
+	public function addMenuItem(MenuItemInterface $menuItem): void {
 		$this->sorted = false;
 		$this->children[] = $menuItem;
 	}
@@ -227,7 +233,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * Returns true if the menu is in active state (if we are on the page for this menu).
 	 * @return bool
 	 */
-	public function isActive() {
+	public function isActive(): bool {
 		if ($this->isActive) {
 			return true;
 		}
@@ -271,7 +277,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @param bool $isActive
 	 */
-	public function setIsActive($isActive) {
+	public function setIsActive(bool $isActive): self {
 		$this->isActive = $isActive;
 		return $this;
 	}
@@ -280,16 +286,16 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * Enables the menu item (activates it).
 	 * 
 	 */
-	public function enable() {
+	public function enable(): self {
 		$this->isActive = true;
 		return $this;
 	}
 	
 	/**
 	 * Returns true if the menu should be in extended state (if we can see the children directly).
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isExtended() {
+	public function isExtended(): ?bool {
 		return $this->isExtended;
 	}
 
@@ -299,7 +305,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @param bool $isExtended
 	 */
-	public function setIsExtended($isExtended = true) {
+	public function setIsExtended(bool $isExtended = true): self {
 		$this->isExtended = $isExtended;
 		return $this;
 	}
@@ -308,7 +314,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * Returns an optional CSS class to apply to the menu item.
 	 * @return string
 	 */
-	public function getCssClass() {
+	public function getCssClass(): string {
 		return $this->cssClass;
 	}
 
@@ -318,7 +324,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @param string $cssClass
 	 */
-	public function setCssClass($cssClass) {
+	public function setCssClass(string $cssClass): self {
 		$this->cssClass = $cssClass;
 		return $this;
 	}
@@ -326,9 +332,9 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	/**
 	 * Level of priority used to order the menu items.
 	 * 
-	 * @param float $priority
+	 * @param float|null $priority
 	 */
-	public function setPriority($priority) {
+	public function setPriority(?float $priority): self {
 		$this->priority = $priority;
 		return $this;
 	}
@@ -337,7 +343,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * Returns the level of priority. It is used to order the menu items.
 	 * @return float
 	 */
-	public function getPriority() {
+	public function getPriority(): ?float {
 		return $this->priority;
 	}
 
@@ -345,15 +351,15 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * Returns the list of additionnal style
 	 * @return array<MenuItemStyleInterface>
 	 */
-	public function getAdditionalStyles() {
+	public function getAdditionalStyles(): array {
 		return $this->additionalStyles;
 	}
 
 	/**
 	 * Returns the one of additionnal style
-	 * @return array<MenuItemStyleInterface>
+	 * @return MenuItemStyleInterface
 	 */
-	public function getAdditionalStyleByType($type) {
+	public function getAdditionalStyleByType(string $type): MenuItemStyleInterface {
 		$return = null;
 		if($this->additionalStyles) {
 			foreach ($this->additionalStyles as $additionalStyle) {
@@ -361,7 +367,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 					if($return === null)
 						$return = $additionalStyle;
 					else
-						throw new \Exception("MenuItem: There are many instance of $type, please use getAdditionalStylesByType function to get all instance");
+						throw new \LogicException("MenuItem: There are many instance of $type, please use getAdditionalStylesByType function to get all instance");
 				}
 			}
 		}
@@ -372,7 +378,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * Returns the list of additionnal style
 	 * @return array<MenuItemStyleInterface>
 	 */
-	public function getAdditionalStylesByType($type) {
+	public function getAdditionalStylesByType(string $type): array {
 		$return = array();
 		if($this->additionalStyles) {
 			foreach ($this->additionalStyles as $additionalStyle) {
@@ -389,7 +395,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @param array<MenuItemStyleInterface> $menuItemStyleInterface
 	 */
-	public function setAdditionalStyles($menuItemStyleInterface) {
+	public function setAdditionalStyles(array $menuItemStyleInterface): self {
 		$this->additionalStyles = $menuItemStyleInterface;
 		return $this;
 	}
@@ -401,7 +407,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @return bool
 	 */
-	public function isSeparator() {
+	public function isSeparator(): bool {
 		return false;
 	}
 	
@@ -410,8 +416,8 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @return bool
 	 */
-	public function isHidden() {
-		if ($this->displayCondition == null) {
+	public function isHidden(): bool {
+		if ($this->displayCondition === null) {
 			return false;
 		}
 		return !$this->displayCondition->isOk();
@@ -421,9 +427,9 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * If any translation service is set, it will be used to translate the label.
 	 * Otherwise, the label is displayed "as-is".
 	 * 
-	 * @param LanguageTranslationInterface $translationService
+	 * @param TranslatorInterface $translationService
 	 */
-	public function setTranslationService(LanguageTranslationInterface $translationService) {
+	public function setTranslationService(TranslatorInterface $translationService): self {
 		$this->translationService = $translationService;
 		return $this;
 	}
@@ -434,7 +440,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @param ConditionInterface $displayCondition
 	 */
-	public function setDisplayCondition(ConditionInterface $displayCondition) {
+	public function setDisplayCondition(ConditionInterface $displayCondition): self {
 		$this->displayCondition = $displayCondition;
 		return $this;
 	}	
@@ -446,7 +452,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 *
 	 * @param array<string> $propagatedUrlParameters
 	 */
-	public function setPropagatedUrlParameters($propagatedUrlParameters) {
+	public function setPropagatedUrlParameters(array $propagatedUrlParameters): self {
 		$this->propagatedUrlParameters = $propagatedUrlParameters;
 		return $this;
 	}
@@ -456,7 +462,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * Returns the absolute URL, with parameters if required.
 	 * @return string
 	 */
-	public function getLink() {
+	public function getLink(): ?string {
 		if ($this->url === null) {
 			return null;
 		}
@@ -467,7 +473,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 		if (is_array($this->propagatedUrlParameters)) {
 			foreach ($this->propagatedUrlParameters as $parameter) {
 				if (isset($_REQUEST[$parameter])) {
-					$params[$parameter] = \get($parameter);
+					$params[$parameter] = $_REQUEST($parameter);
 				}
 			}
 		}
@@ -488,7 +494,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 		return $link;
 	}
 	
-	private function getLinkWithoutParams() {
+	private function getLinkWithoutParams(): string {
 		if (strpos($this->url, "/") === 0
 			|| strpos($this->url, "javascript:") === 0
 			|| strpos($this->url, "http://") === 0
@@ -498,7 +504,7 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 			return $this->url;	
 		}
 		
-		return ROOT_URL.$this->url;
+		return $this->rootUrl.$this->url;
 	}
 	
 	/**
@@ -506,9 +512,8 @@ class MenuItem implements MenuItemInterface, HtmlElementInterface {
 	 * 
 	 * @param bool $activateBasedOnUrl
 	 */
-	public function setActivateBasedOnUrl($activateBasedOnUrl = true) {
+	public function setActivateBasedOnUrl(bool $activateBasedOnUrl = true): self {
 		$this->activateBasedOnUrl = $activateBasedOnUrl;
 		return $this;
 	}
 }
-?>

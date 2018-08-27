@@ -22,29 +22,28 @@ class MenuItemStyleIcon implements MenuItemStyleInterface {
 	 * @var string
 	 */
 	private $url;
-	
+    /**
+     * @var string
+     */
+    private $rootUrl;
+
+    public function __construct(string $url, string $rootUrl = '/')
+    {
+        $this->url = $url;
+        $this->rootUrl = $rootUrl;
+    }
+
 	/**
 	 * Returns the URL for this menu (or null if this menu is not a link).
 	 * @return string
 	 */
-	public function getUrl() {
+	public function getUrl(): string {
 		if (strpos($this->url, "/") === 0
 			|| strpos($this->url, "javascript:") === 0
 			|| strpos($this->url, "http://") === 0
 			|| strpos($this->url, "https://") === 0) {
 			return $this->url;	
 		}
-		return ROOT_URL.$this->url;
+		return $this->rootUrl.$this->url;
 	}
-	
-	/**
-	 * The link for the menu (relative to the root url), unless it starts with / or http:// or https://.
-	 *
-	 * @Property
-	 * @param string $url
-	 */
-	public function setUrl($url) {
-		$this->url = $url;
-	}	
 }
-?>

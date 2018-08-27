@@ -1,0 +1,5 @@
+parameters:
+    ignoreErrors:
+     - "#you should not use the \\$_REQUEST superglobal#"
+includes:
+    - vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon

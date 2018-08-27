@@ -21,14 +21,12 @@ interface MenuInterface {
 	 * Returns a list of children elements for the menu (if there are some).
 	 * @return array<MenuItemInterface>
 	 */
-	function getChildren();
+	function getChildren(): array;
 	
 	/**
 	 * If this function returns true, the menu item should not be displayed.
 	 * 
 	 * @return bool
 	 */
-	function isHidden();
+	function isHidden(): bool;
 }
-
-?>
