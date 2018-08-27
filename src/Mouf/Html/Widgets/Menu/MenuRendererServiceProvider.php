@@ -3,7 +3,6 @@
 
 namespace Mouf\Html\Widgets\Menu;
 
-
 use Mouf\Html\Renderer\AbstractPackageRendererServiceProvider;
 
 class MenuRendererServiceProvider extends AbstractPackageRendererServiceProvider
