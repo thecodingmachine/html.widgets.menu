@@ -81,4 +81,10 @@ interface MenuItemInterface /*extends MenuInterface*/
      * @return array<MenuItemStyleInterface>
      */
     public function getAdditionalStyles(): array;
+
+    /**
+     * Returns the absolute URL, with parameters if required.
+     * @return string
+     */
+    public function getLink(): ?string;
 }
