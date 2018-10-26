@@ -5,7 +5,9 @@
 {% if children %}
 <ul>
 	{%- for child in children -%}
-		{{- toHtml(child) -}}
+		{% if not child.hidden %}
+			{{- toHtml(child) -}}
+		{% endif %}
 	{%- endfor -%}
 </ul>
 {%- endif -%}
